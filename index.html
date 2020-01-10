@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css" />
+        <title>Password Strength Meter</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js" ></script>
+        <script src="https://kit.fontawesome.com/ae60e67c9a.js" crossorigin="anonymous"></script>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <label id="password-label" for="password">Enter Password</label>
+        <input type="password" id="password" />
+        <i id="eye" class="far fa-eye-slash fa-lg" onclick="visibilityToggle()"  ></i>
+        <meter id="password-strength-meter" value="0" min="0" max="4"></meter>
+        <p id="password-strength-emoji"></p>
+       
+
+    </body>
+</html>
+
+<script>
+    
+
+    const password = document.getElementById("password");
+    const meter = document.getElementById("password-strength-meter");
+    const emoji = document.getElementById("password-strength-emoji")
+    const text = document.getElementById("password-strength-text");
+    const eye = document.getElementById("eye")
+
+  console.log(password.type)
+    function visibilityToggle() {
+        if (password.type === "password"){
+            console.log(0)
+            password.type = 'text'
+            eye.className = "far fa-eye fa-lg"
+            console.log(password.type)
+            console.log(eye)
+        }
+        else {
+            console.log(1)
+            password.type = 'password'
+            eye.className = "far fa-eye-slash fa-lg"
+            console.log(password.type)
+            console.log(eye)
+        }
+    }
+
+    password.addEventListener('input', function() {
+        const val = password.value;
+        const result = zxcvbn(val);
+
+        const strength = {
+        0: "🙁",
+        1: "🤨 Very Weak",
+        2: "🤔 Weak",
+        3: "🙂 Good",
+        4: "😁 Strong"
+    }
+        meter.value = result.score;
+
+        if (val !== ""){
+            emoji.innerHTML = "" + strength[result.score]
+        }
+        else {
+            emoji.innerHTML = ""
+        }
+
+    })
+
+
+</script>
